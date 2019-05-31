@@ -94,7 +94,7 @@ class simp_bolt::controller::config (
   Optional[String[1]]              $hiera_config       = undef,
   Optional[String[1]]              $inventoryfile      = undef,
   Simp_bolt::LogLevel              $log_console_level  = 'info',
-  Boolean                          $log_file_append    = false,
+  Boolean                          $log_file_append    = true,
   Simp_bolt::LogLevel              $log_file_level     = 'info',
   Stdlib::Unixpath                 $log_file           = '/var/log/puppetlabs/bolt/bolt.log',
   Optional[String[1]]              $modulepath         = undef,
