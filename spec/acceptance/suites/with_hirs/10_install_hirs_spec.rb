@@ -37,6 +37,16 @@ describe 'hirs_provisioner class' do
     sleep(10)
   end
 
+  #configure site.yaml and hiera
+  def config_site_and_hiera(_boltserver)
+    scp_to(_boltserver, File.join(files_dir, 'Puppetfile'), '/var/local/simp_bolt/.puppetlabs/bolt/Puppetfile')
+    on _boltserver, 'bolt puppetfile install'
+    scp_to(_boltserver, File.join(files_dir, 'hiera.yaml'), '/var/local/simp_bolt/.puppetlabs/bolt/hiera.yaml')
+    on _boltserver, 'mkdir /var/local/simp_bolt/.puppetlabs/bolt/data'
+    on _boltserver, 'printf "---\nhirs_provisioner::config:::aca_fqdn: aca" > /var/local/simp_bolt/.puppetlabs/bolt/data/common.yaml'
+    on _boltserver, 'printf "include hirs_provisioner" > /var/local/simp_bolt/.puppetlabs/bolt/site.pp'
+  end
+
 
   let(:files_dir) { File.join(File.dirname(__FILE__), 'files') }
 
@@ -49,11 +59,20 @@ describe 'hirs_provisioner class' do
 
   context 'with a tpm' do
     hosts_with_role(hosts, 'hirs').each do |hirs_host|
-
-      it 'should work with no errors' do
+      it 'should create a local yum repo' do
         create_local_repo(hirs_host)
       end
+    end
+  end
 
+  context 'on specified hirs systems' do
+    hosts_with_role( hosts, 'boltserver' ).first do |_boltserver|
+      it 'should install hirs_provisioner' do
+        config_site_and_hiera(_boltserver)
+        hosts_with_role( hosts, 'hirs' ).each do |hirs_host|
+          on _boltserver, "bolt apply site.pp --nodes '#{hirs_host}' --no-host-key-check"
+        end
+      end
     end
   end
 end

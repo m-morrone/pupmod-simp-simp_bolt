@@ -66,7 +66,7 @@ simp_bolt::controller::local_user_home: /var/local/simp_bolt
         scp_to(_boltserver, File.join(files_dir, 'id_rsa.example'), '/var/local/simp_bolt/.ssh/id_rsa')
         on(_boltserver, 'chown -R simp_bolt:simp_bolt /var/local/simp_bolt/.ssh/id_rsa')
         os = fact_on(_boltserver,'operatingsystemmajrelease')
-        on(_boltserver, "rpm -Uvh https://yum.puppet.com/puppet5-release-el-#{os}.noarch.rpm")
+#        on(_boltserver, "rpm -Uvh https://yum.puppet.com/puppet5-release-el-#{os}.noarch.rpm")
         set_hieradata_on(_boltserver, server_hieradata)
         apply_manifest_on(_boltserver, manifest, :catch_failures => true)
       end
