@@ -1,0 +1,6 @@
+#To specify modules from puppetforge
+mod 'puppetlabs-stdlib', '5.2.0'
+mod 'simp-simplib', '3.13.0'
+
+#To specify modules from git repo
+mod 'simp/hirs_provisioner', git: 'https://github.com/simp/pupmod-simp-hirs_provisioner.git', ref: 'master'
