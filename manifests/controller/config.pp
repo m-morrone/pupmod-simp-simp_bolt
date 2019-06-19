@@ -177,6 +177,22 @@ class simp_bolt::controller::config (
     )
   }
 
+  # Configure hiera
+  file { "${_bolt_dir}/data":
+    ensure => 'directory',
+    owner  => $_local_user,
+    group  => $_local_group,
+    mode   => $_bolt_dir_mode
+  }
+
+  file { "${_bolt_dir}/hiera.yaml":
+    ensure  => 'file',
+    owner   => $_local_user,
+    group   => $_local_group,
+    mode    => $_bolt_dir_mode,
+    content => file("${module_name}/hiera.yaml")
+  }
+
   # Ensure the directory for the log files exists
   $_log_dir = dirname($log_file)
   exec { 'Create Bolt Log Dir':
