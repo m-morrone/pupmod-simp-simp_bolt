@@ -83,11 +83,12 @@ describe 'install tpm_simulators' do
 
     # Using puppet_apply as a helper
       it 'should work with no errors' do
-        install_pre_suite_rpms(hirs_host)
         if hirs_host.host_hash[:roles].include?('tpm_2_0')
+          install_package(hirs_host,'simp-tpm2-simulator')
           implement_workarounds(hirs_host)
           configure_tpm2_0_tools(hirs_host)
         else
+          install_package(hirs_host,'simp-tpm12-simulator')
           start_tpm_1_2_sim(hirs_host)
         end
 

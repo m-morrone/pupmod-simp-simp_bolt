@@ -33,11 +33,12 @@ This module manages Puppet Bolt. It installs and configures the necessary
 packages on systems specified as Bolt controllers and configures accounts as
 specified on both controllers and target systems to be managed with Bolt.
 
-Bolt is task runner that permits automation on an as-needed basis. This means
-that all actions are initiated from the Bolt server, eliminating reliance upon
-remote agent software for task execution. More complex tasks can be implemented
-using Puppet modules, which does require the installation of an agent for
-executions, but all tasks are still initiated from the remote Bolt system.
+Bolt is an open source task runner developed by Puppet that permits automation
+on an as-needed basis. This means that all actions are initiated from the Bolt
+server, eliminating reliance upon remote agent software for task execution.
+More complex tasks can be implemented using Puppet modules, which does require
+the installation of an agent for executions, but all tasks are still initiated
+from the Bolt server.
 
 ### This is a SIMP module
 
@@ -63,16 +64,16 @@ it can be used independently:
 
 ### What simp_bolt affects
 
-The simp_bolt module can create a local user account on target systems, 
-simp_bolt by default, that has the ability to ``su`` to the root user on the
+The simp_bolt module can create a local user account on target systems,
+simp_bolt by default, that has the ability to `su` to the root user on the
 system. Every effort has been taken to implement this as securely as possible by
 including an option to manage user security settings. Due to the potential to
 effectively lockout the account, the root user is not permitted to be specified
-as the target user account if manage user security settings is enabled. The
-target user can be restricted to only login via ssh from specified hosts and
-also limited to only one login session at a time for the execution of tasks.
-Multiple ssh keys can be specified for the target user to permit different user
-accounts on the controller to run bolt and provide a degree of attestation.
+as the target user account. The target user can be restricted to only login via
+ssh from specified hosts and also limited to only one login session at a time 
+for the execution of tasks. Multiple ssh keys can be specified for the target
+user to permit different user accounts on the controller to run bolt and provide
+a degree of attestation.
 
 
 The target user's home directory defaults to /var/local/simp_bolt. This location
@@ -89,13 +90,13 @@ non-identifiable user, details are available at
 . The simp_bolt module overrides and disables this by default, but it can 
 be re-enabled in Hiera.
 
-The simp_bolt module relies upon the `simp/pam` and `simp/sudo` modules 
+The simp_bolt module leverages the `simp/pam` and `simp/sudo` modules 
 for implementation and will install them if necessary.
 
 ### Beginning with simp_bolt
 
 To configure a system as a Bolt controller, include the SIMP Bolt class and specify
-Bolt server in Hiera.
+the system as a `bolt_controller` in Hiera.
 
 ```yaml
 classes:
@@ -104,7 +105,7 @@ simp_bolt::bolt_controller: true
 ```
 
 To configure a system that will be managed by Bolt, simply include the SIMP Bolt
-class in Hiera.
+class and specify the system as a ``bolt_target`` in Hiera.
 
 ```yaml
 classes:

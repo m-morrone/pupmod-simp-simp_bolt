@@ -12,7 +12,7 @@ HOSTS:
       - boltserver
       - target
       - hirs
-      - tpm_2_0
+      - tpm_1_2
     platform:   el-7-x86_64
     box:        centos/7
     hypervisor: <%= hypervisor %>
@@ -34,7 +34,7 @@ HOSTS:
     roles:
       - target
       - hirs
-      - tpm_1_2
+      - tpm_2_0
     platform:   el-7-x86_64
     box:        centos/7
     hypervisor: <%= hypervisor %>
