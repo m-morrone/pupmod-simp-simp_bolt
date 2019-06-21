@@ -29,12 +29,11 @@ describe 'hirs_provisioner class' do
   end
 
   context 'on specified hirs systems' do
-    hosts_with_role( hosts, 'default' ).each do |_boltserver|
-      it 'should install hirs_provisioner' do
-        config_site_and_hiera(_boltserver)
-        hosts_with_role( hosts, 'hirs' ).each do |hirs_host|
-          on _boltserver, "runuser simp_bolt -l -c \"bolt apply /var/local/simp_bolt/.puppetlabs/bolt/site.pp --nodes '#{hirs_host}' --no-host-key-check\""
-        end
+    it 'should install hirs_provisioner' do
+      _boltserver = hosts_with_role( hosts, 'boltserver' ).first 
+      config_site_and_hiera(_boltserver)
+      hosts_with_role( hosts, 'hirs' ).each do |hirs_host|
+        on _boltserver, "runuser simp_bolt -l -c \"bolt apply /var/local/simp_bolt/.puppetlabs/bolt/site.pp --nodes '#{hirs_host}' --no-host-key-check\""
       end
     end
   end

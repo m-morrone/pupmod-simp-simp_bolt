@@ -190,6 +190,7 @@ class simp_bolt::controller::config (
     owner   => $_local_user,
     group   => $_local_group,
     mode    => $_bolt_dir_mode,
+    replace => false,
     content => file("${module_name}/hiera.yaml")
   }
 
